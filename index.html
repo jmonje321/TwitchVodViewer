@@ -6,21 +6,30 @@
     </head>
 
     <body>
-        <div class="video-players">
-            <div id="vod">
-                <!-- <iframe width="1280" height="720" src="https://www.youtube.com/embed/pZeLkHXvIEA?si=pAbpvKcjVkqMny4C" title="YouTube video player1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
-                <!-- width="1600" height="900" -->
-            </div>
-            <div id="chat">
-                <iframe width="420" height="720" src="https://www.youtube.com/embed/Wa6mmT3Ja_Y?si=EyE5TFB13ka1ZUKN" title="YouTube video player2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                <!-- width="560" height="315" -->
-            </div>
+        <div id="get-players">
+            <input type="text" placeholder="Enter VOD URL" id="vod-url">
+            <input type="text" placeholder="Enter Chat URL" id="chat-url">
+            <br>
+            <button type="button" onclick="checkPlayers()">Enter</button> 
         </div>
 
-        <div class="controls">
-            <i class="fa fa-play" aria-hidden="true" style="font-size:64px" onclick="playVideo()"></i>
-            <i class="fa fa-pause" aria-hidden="true" style="font-size:64px" onclick="pauseVideo()"></i>
-            <i class="fa fa-refresh" aria-hidden="true" style="font-size:64px" onclick="resync()"></i>
+        <div id="content">
+            <div class="video-players">
+                <div id="vod">
+                    <!-- <iframe width="1280" height="720" src="https://www.youtube.com/embed/pZeLkHXvIEA?si=pAbpvKcjVkqMny4C" title="YouTube video player1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+                    <!-- width="1600" height="900" -->
+                </div>
+                <div id="chat">
+                    <!--<iframe width="420" height="720" src="https://www.youtube.com/embed/Wa6mmT3Ja_Y?si=EyE5TFB13ka1ZUKN" title="YouTube video player2" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
+                    <!-- width="560" height="315" -->
+                </div>
+            </div>
+
+            <div class="controls">
+                <i class="fa fa-play" aria-hidden="true" style="font-size:64px;color:white;margin-left:10px;margin-right:10px" onclick="playVideo()"></i>
+                <i class="fa fa-pause" aria-hidden="true" style="font-size:64px;color:white;margin-left:10px;margin-right:10px" onclick="pauseVideo()"></i>
+                <i class="fa fa-refresh" aria-hidden="true" style="font-size:64px;color:white;margin-left:10px;margin-right:10px" onclick="resync()"></i>
+            </div>
         </div>
         <!-- <button class='play-button' onclick="playVideo()"></button> -->
 

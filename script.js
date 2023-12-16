@@ -86,3 +86,32 @@ function resync() {
         vod.seekTo(chatTime);
     }
 }
+
+function checkPlayers() {
+    function matchYoutubeUrl(url) {
+        var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
+        if(url.match(p)){
+            return url.match(p)[1];
+        }
+        return false;
+    }
+    function getVideoId(url) {
+        let regex = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
+        return regex.exec(url)[3];
+    }
+
+    var vodURL = document.getElementById("vod-url").value;
+    var chatURL = document.getElementById("chat-url").value;
+
+    if (!matchYoutubeUrl(vodURL)){
+        alert("VOD URL is not valid.");
+    }
+    else if (!matchYoutubeUrl(chatURL)){
+        alert("Chat URL is not valid.");
+    }
+    else{
+        document.getElementById("content").style.display = "inline";
+        vod.loadVideoById(getVideoId(vodURL));
+        chat.loadVideoById(getVideoId(chatURL));
+    }
+}
