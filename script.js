@@ -1,3 +1,6 @@
+var width = screen.width / 1920;
+var height = screen.height / 1080;
+
 var tag = document.createElement('script');
 
 tag.src = "https://www.youtube.com/iframe_api";
@@ -9,38 +12,42 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 var vod;
 var chat;
 function onYouTubeIframeAPIReady() {
-  vod = new YT.Player('vod', {
-    height: '720',
-    width: '1280',
-    videoId: 'pZeLkHXvIEA',
-    playerVars: {
-      'playsinline': 1
-    },
-    events: {
-      'onReady': onPlayerReadyVod,
-      'onStateChange': onPlayerStateChangeVod
-    }
-  });
-  chat = new YT.Player('chat', {
-    height: '720',
-    width: '420',
-    videoId: 'Wa6mmT3Ja_Y',
-    playerVars: {
-      'playsinline': 1
-    },
-    events: {
-      'onReady': onPlayerReadyChat,
-      'onStateChange': onPlayerStateChangeChat
-    }
-  });
+    var vodHeight = 720 * height;
+    var vodWidth = 1280 * width;
+    vod = new YT.Player('vod', {
+        height: vodHeight.toString(),
+        width: vodWidth.toString(),
+        videoId: 'pZeLkHXvIEA',
+        playerVars: {
+        'playsinline': 1
+        },
+        events: {
+        'onReady': onPlayerReadyVod,
+        'onStateChange': onPlayerStateChangeVod
+        }
+    });
+    var chatHeight = 720 * height;
+    var chatWidth = 420 * width; 
+    chat = new YT.Player('chat', {
+        height: chatHeight.toString(),
+        width: chatWidth.toString(),
+        videoId: 'Wa6mmT3Ja_Y',
+        playerVars: {
+        'playsinline': 1
+        },
+        events: {
+        'onReady': onPlayerReadyChat,
+        'onStateChange': onPlayerStateChangeChat
+        }
+    });
 }
 
 // 4. The API will call this function when the video player is ready.
 function onPlayerReadyVod(event) {
-    event.target.playVideo();
+    event.target.pauseVideo();
 }
 function onPlayerReadyChat(event) {
-    event.target.playVideo();
+    event.target.pauseVideo();
 }
 
 // 5. The API calls this function when the player's state changes.
@@ -113,5 +120,10 @@ function checkPlayers() {
         document.getElementById("content").style.display = "inline";
         vod.loadVideoById(getVideoId(vodURL));
         chat.loadVideoById(getVideoId(chatURL));
+
+        document.getElementById("get-players").style.display = "none";
     }
 }
+
+console.log(screen.width);
+console.log(screen.height);
