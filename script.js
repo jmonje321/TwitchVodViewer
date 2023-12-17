@@ -40,6 +40,7 @@ function onYouTubeIframeAPIReady() {
         vodVideoId = localStorage.getItem("vodVideoId");
         chatVideoId = localStorage.getItem("chatVideoId");
     }
+    console.log(vodVideoId);
 
     vod = new YT.Player('vod', {
         height: vodHeight.toString(),
