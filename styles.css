@@ -1,26 +1,82 @@
+body {
+  font-family: 'Ubuntu', sans-serif;
+}
+
+h1 {
+  margin-top: 0;
+  text-align: center;
+}
+
 .video-players {
     margin: 0 auto;
     display: flex;
     justify-content: center;
 }
 
+.modal-class {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content-class {
+    background: whitesmoke;
+    margin: auto;
+    padding: 20px;
+    width: 25vw;
+}
+
+#close {
+  color: lightgray;
+  font-weight: bold;
+  font-size: 30px;
+  float: right;
+}
+
+#close:hover {
+  color: #444444;
+  cursor: pointer;
+}
+
 .fa-play:hover {
   filter: brightness(0.5);
+  cursor: pointer;
 }
 .fa-play:active {
   filter: brightness(0.25);
+  cursor: pointer;
 }
 .fa-pause:hover {
   filter: brightness(0.5);
+  cursor: pointer;
 }
 .fa-pause:active {
   filter: brightness(0.25);
+  cursor: pointer;
 }
 .fa-rotate:hover {
   filter: brightness(0.5);
+  cursor: pointer;
 }
 .fa-rotate:active {
   filter: brightness(0.25);
+  cursor: pointer;
+}
+.fa-bars:hover {
+  filter: brightness(0.5);
+  cursor: pointer;
+}
+.fa-bars:active {
+  filter: brightness(0.25);
+  cursor: pointer;
 }
 
 .controls {
@@ -35,7 +91,12 @@
 }
 
 #content {
-  display: none;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 html {

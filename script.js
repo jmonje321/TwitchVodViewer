@@ -1,3 +1,21 @@
+var modal = document.getElementById("modal");
+var closeButton = document.getElementById("close");
+
+// Shows the modal when openSettings() is opened by fa-bars onclick.
+function openSettings() {
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+    document.body.style.height = "100%";
+    console.log("CLICKED");
+}
+
+// Closes modal after close button is clicked.
+closeButton.onclick = function() {
+    modal.style.display = "none";
+    document.body.style.overflow = "auto";
+    document.body.style.height = "auto";
+}
+
 var width = screen.width / 1920;
 var height = screen.height / 1080;
 
@@ -14,12 +32,22 @@ var chat;
 function onYouTubeIframeAPIReady() {
     var vodHeight = 720 * height;
     var vodWidth = 1280 * width;
+    var vodVideoId = 'pZeLkHXvIEA';
+    var chatVideoId = 'Wa6mmT3Ja_Y';
+    if ("vodVideoId" in localStorage && "chatVideoId" in localStorage){
+        console.log(vodVideoId);
+        console.log(chatVideoId);
+        vodVideoId = localStorage.getItem("vodVideoId");
+        chatVideoId = localStorage.getItem("chatVideoId");
+    }
+
     vod = new YT.Player('vod', {
         height: vodHeight.toString(),
         width: vodWidth.toString(),
-        videoId: 'pZeLkHXvIEA',
+        videoId: vodVideoId,
         playerVars: {
-        'playsinline': 1
+        'playsinline': 1,
+        'fs': 0
         },
         events: {
         'onReady': onPlayerReadyVod,
@@ -31,9 +59,10 @@ function onYouTubeIframeAPIReady() {
     chat = new YT.Player('chat', {
         height: chatHeight.toString(),
         width: chatWidth.toString(),
-        videoId: 'Wa6mmT3Ja_Y',
+        videoId: chatVideoId,
         playerVars: {
-        'playsinline': 1
+        'playsinline': 1,
+        'fs': 0
         },
         events: {
         'onReady': onPlayerReadyChat,
@@ -77,23 +106,27 @@ function playVideo() {
     chat.playVideo();
 }
 
+// Pauses both the VOD and Chat, and then sets the time of the
+// Chat to be the same as the VOD.
 function resync() {
-    console.log(vod.getCurrentTime())
-    console.log(chat.getCurrentTime())
-
     pauseVideo();
 
     var vodTime = vod.getCurrentTime();
-    var chatTime = chat.getCurrentTime();
+    //var chatTime = chat.getCurrentTime();
 
+    chat.seekTo(vodTime);
+    /*
     if (vodTime > chatTime){
         chat.seekTo(vodTime);
     }
     else{
         vod.seekTo(chatTime);
-    }
+    }*/
 }
 
+// Checks the YouTube URL in the text box. If there is any error in the
+// URLs then an alert is displayed. If no errors then the YouTubeIframe 
+// loads the videos, saves the videos using localStorage, and closes modal.
 function checkPlayers() {
     function matchYoutubeUrl(url) {
         var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
@@ -117,13 +150,18 @@ function checkPlayers() {
         alert("Chat URL is not valid.");
     }
     else{
-        document.getElementById("content").style.display = "inline";
-        vod.loadVideoById(getVideoId(vodURL));
-        chat.loadVideoById(getVideoId(chatURL));
+        var vodVideoId = getVideoId(vodURL);
+        var chatVideoId = getVideoId(chatURL);
+        vod.loadVideoById(vodVideoId);
+        chat.loadVideoById(chatVideoId);
 
-        document.getElementById("get-players").style.display = "none";
+        // Save video ID's to localStorage
+        localStorage.setItem("vodVideoId", vodVideoId);
+        localStorage.setItem("chatVideoId", chatVideoId);
+        
+        // Closes modal
+        modal.style.display = "none";
+        document.body.style.overflow = "auto";
+        document.body.style.height = "auto";
     }
 }
-
-console.log(screen.width);
-console.log(screen.height);
