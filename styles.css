@@ -78,6 +78,22 @@ h1 {
   filter: brightness(0.25);
   cursor: pointer;
 }
+.fa-backward:hover {
+  filter: brightness(0.5);
+  cursor: pointer;
+}
+.fa-backward:active {
+  filter: brightness(0.25);
+  cursor: pointer;
+}
+.fa-forward:hover {
+  filter: brightness(0.5);
+  cursor: pointer;
+}
+.fa-forward:active {
+  filter: brightness(0.25);
+  cursor: pointer;
+}
 
 .controls {
   text-align: center;

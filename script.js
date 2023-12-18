@@ -1,5 +1,5 @@
-var modal = document.getElementById("modal");
-var closeButton = document.getElementById("close");
+let modal = document.getElementById("modal");
+let closeButton = document.getElementById("close");
 
 // Shows the modal when openSettings() is opened by fa-bars onclick.
 function openSettings() {
@@ -16,31 +16,34 @@ closeButton.onclick = function() {
     document.body.style.height = "auto";
 }
 
-var width = screen.width / 1920;
-var height = screen.height / 1080;
+let width = screen.width / 1920;
+let height = screen.height / 1080;
 
-var tag = document.createElement('script');
+let tag = document.createElement('script');
 
 tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
+let firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 // 3. This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
-var vod;
-var chat;
+let vod;
+let chat;
 function onYouTubeIframeAPIReady() {
-    var vodHeight = 720 * height;
-    var vodWidth = 1280 * width;
-    var vodVideoId = 'pZeLkHXvIEA';
-    var chatVideoId = 'Wa6mmT3Ja_Y';
+    let vodHeight = 720 * height;
+    let vodWidth = 1280 * width;
+    let vodVideoId = 'pZeLkHXvIEA';
+    let chatVideoId = 'Wa6mmT3Ja_Y';
+    let vodTime = 0;
+    let chatTime = 0;
     if ("vodVideoId" in localStorage && "chatVideoId" in localStorage){
-        console.log(vodVideoId);
-        console.log(chatVideoId);
         vodVideoId = localStorage.getItem("vodVideoId");
         chatVideoId = localStorage.getItem("chatVideoId");
+        if ("vodTime" in localStorage && "chatTime" in localStorage){
+            vodTime = parseInt(localStorage.getItem("vodTime"));
+            chatTime = parseInt(localStorage.getItem("chatTime"));
+        }
     }
-    console.log(vodVideoId);
 
     vod = new YT.Player('vod', {
         height: vodHeight.toString(),
@@ -48,22 +51,24 @@ function onYouTubeIframeAPIReady() {
         videoId: vodVideoId,
         playerVars: {
         'playsinline': 1,
-        'fs': 0
+        'fs': 0,
+        'start': vodTime
         },
         events: {
         'onReady': onPlayerReadyVod,
         'onStateChange': onPlayerStateChangeVod
         }
     });
-    var chatHeight = 720 * height;
-    var chatWidth = 420 * width; 
+    let chatHeight = 720 * height;
+    let chatWidth = 420 * width; 
     chat = new YT.Player('chat', {
         height: chatHeight.toString(),
         width: chatWidth.toString(),
         videoId: chatVideoId,
         playerVars: {
         'playsinline': 1,
-        'fs': 0
+        'fs': 0,
+        'start': chatTime
         },
         events: {
         'onReady': onPlayerReadyChat,
@@ -83,46 +88,68 @@ function onPlayerReadyChat(event) {
 // 5. The API calls this function when the player's state changes.
 //    The function indicates that when playing a video (state=1),
 //    the player should play for six seconds and then stop.
-var doneVod = false;
 function onPlayerStateChangeVod(event) {
-    if (event.data == YT.PlayerState.PLAYING && !doneVod) {
-        // setTimeout(stopVideo, 6000);
-        doneVod = true;
+    if (event.data != YT.PlayerState.PLAYING) {
+        localStorage.setItem("vodTime", vod.getCurrentTime())
+    }
+
+    console.log(event.data);
+    let icon = document.getElementById("play-icon");
+    if (event.data == YT.PlayerState.PLAYING) {
+        icon.className = 'fa-solid fa-pause';
+    }
+    if (event.data == YT.PlayerState.PAUSED) {
+        icon.className = 'fa-solid fa-play';
     }
 }
-var doneChat = false;
 function onPlayerStateChangeChat(event) {
-    if (event.data == YT.PlayerState.PLAYING && !doneChat) {
-    // setTimeout(stopVideo, 6000);
-        doneChat = true;
+    if (event.data != YT.PlayerState.PLAYING) {
+        localStorage.setItem("chatTime", chat.getCurrentTime())
     }
 }
 
-function pauseVideo() {
-    vod.pauseVideo();
-    chat.pauseVideo();
-}
-function playVideo() {
-    vod.playVideo();
-    chat.playVideo();
+function playOrPause()
+{
+    let icon = document.getElementById("play-icon");
+    // 1 == Playing
+    // 2 == Paused
+    // 5 == cued
+    if (vod.getPlayerState() == 1)
+    {
+        vod.pauseVideo();
+        chat.pauseVideo();
+
+        icon.className = 'fa-solid fa-play';
+    }
+    else if (vod.getPlayerState() == 2 || vod.getPlayerState() == 5)
+    {
+        vod.playVideo();
+        chat.playVideo();
+
+        icon.className = 'fa-solid fa-pause';
+    }
 }
 
 // Pauses both the VOD and Chat, and then sets the time of the
 // Chat to be the same as the VOD.
 function resync() {
-    pauseVideo();
+    vod.pauseVideo();
+    chat.pauseVideo();
 
-    var vodTime = vod.getCurrentTime();
-    //var chatTime = chat.getCurrentTime();
-
+    let vodTime = vod.getCurrentTime();
     chat.seekTo(vodTime);
-    /*
-    if (vodTime > chatTime){
-        chat.seekTo(vodTime);
-    }
-    else{
-        vod.seekTo(chatTime);
-    }*/
+}
+
+function rewind()
+{
+    vod.seekTo(vod.getCurrentTime() - 5);
+    chat.seekTo(vod.getCurrentTime() - 5);
+}
+
+function forward()
+{
+    vod.seekTo(vod.getCurrentTime() + 5);
+    chat.seekTo(vod.getCurrentTime() + 5);
 }
 
 // Checks the YouTube URL in the text box. If there is any error in the
@@ -141,8 +168,8 @@ function checkPlayers() {
         return regex.exec(url)[3];
     }
 
-    var vodURL = document.getElementById("vod-url").value;
-    var chatURL = document.getElementById("chat-url").value;
+    let vodURL = document.getElementById("vod-url").value;
+    let chatURL = document.getElementById("chat-url").value;
 
     if (!matchYoutubeUrl(vodURL)){
         alert("VOD URL is not valid.");
@@ -151,8 +178,8 @@ function checkPlayers() {
         alert("Chat URL is not valid.");
     }
     else{
-        var vodVideoId = getVideoId(vodURL);
-        var chatVideoId = getVideoId(chatURL);
+        let vodVideoId = getVideoId(vodURL);
+        let chatVideoId = getVideoId(chatURL);
         vod.loadVideoById(vodVideoId);
         chat.loadVideoById(chatVideoId);
 

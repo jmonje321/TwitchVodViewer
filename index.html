@@ -46,8 +46,10 @@
             </div>
 
             <div class="controls">
-                <i class="fa-solid fa-play" style="font-size:64px;color:white;margin-left:10px;margin-right:10px;" onclick="playVideo()"></i>
-                <i class="fa-solid fa-pause" style="font-size:64px;color:white;margin-left:10px;margin-right:10px;" onclick="pauseVideo()"></i>
+                <i class="fa-solid fa-backward" style="font-size:64px;color:white;margin-left:10px;margin-right:10px;" onclick="rewind()"></i>
+                <i id="play-icon" class="fa-solid fa-play" style="font-size:64px;color:white;margin-left:10px;margin-right:10px;" onclick="playOrPause()"></i>
+                <!--<i class="fa-solid fa-pause" style="font-size:64px;color:white;margin-left:10px;margin-right:10px;" onclick="pauseVideo()"></i>-->
+                <i class="fa-solid fa-forward" style="font-size:64px;color:white;margin-left:10px;margin-right:10px;" onclick="forward()"></i>
                 <i class="fa-solid fa-rotate" style="font-size:64px;color:white;margin-left:10px;margin-right:10px;" onclick="resync()"></i>
                 <i class="fa-solid fa-bars" style="font-size:64px;color:white;margin-left:10px;margin-right:10px;" onclick="openSettings()"></i>
             </div>
