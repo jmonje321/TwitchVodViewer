@@ -46,50 +46,21 @@ h1 {
   cursor: pointer;
 }
 
-.fa-play:hover {
-  filter: brightness(0.5);
-  cursor: pointer;
-}
-.fa-play:active {
-  filter: brightness(0.25);
-  cursor: pointer;
-}
-.fa-pause:hover {
-  filter: brightness(0.5);
-  cursor: pointer;
-}
-.fa-pause:active {
-  filter: brightness(0.25);
-  cursor: pointer;
-}
-.fa-rotate:hover {
-  filter: brightness(0.5);
-  cursor: pointer;
-}
-.fa-rotate:active {
-  filter: brightness(0.25);
-  cursor: pointer;
-}
-.fa-bars:hover {
-  filter: brightness(0.5);
-  cursor: pointer;
-}
-.fa-bars:active {
-  filter: brightness(0.25);
-  cursor: pointer;
-}
-.fa-backward:hover {
-  filter: brightness(0.5);
-  cursor: pointer;
-}
-.fa-backward:active {
-  filter: brightness(0.25);
-  cursor: pointer;
-}
+.fa-play:hover,
+.fa-pause:hover,
+.fa-rotate:hover,
+.fa-bars:hover,
+.fa-backward:hover,
 .fa-forward:hover {
   filter: brightness(0.5);
   cursor: pointer;
 }
+
+.fa-play:active,
+.fa-pause:active,
+.fa-rotate:active,
+.fa-bars:active,
+.fa-backward:active,
 .fa-forward:active {
   filter: brightness(0.25);
   cursor: pointer;
@@ -113,6 +84,10 @@ h1 {
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+
+footer {
+  text-align: center;
 }
 
 html {
